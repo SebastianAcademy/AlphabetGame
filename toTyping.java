@@ -30,6 +30,7 @@ public class toTyping {
                 long timestart = System.currentTimeMillis();
                 long timeend = 0;
                 long time = 0;
+                long cpm = 0;
                 while (true) {
                     key = waitPressKey(key, terminal);
                     if (key.getCharacter() == alphabet.charAt(i)) {
@@ -43,7 +44,10 @@ public class toTyping {
                         starty++;
                         timeend = System.currentTimeMillis();
                         time = (timeend - timestart);
-                        forprinting.WriterTerminal(startx, starty, "Great, your time is: " + time + "ms");
+                        cpm = alphabet.length()*1000/time*60;
+                        forprinting.WriterTerminal(startx, starty, "Great, your time: " + time + "ms");
+                        starty++;
+                        forprinting.WriterTerminal(startx, starty, "Your cpm: " + cpm);
                         starty++;
                         forprinting.WriterTerminal(startx, starty, "To reset press r, press ESC to quit");
                         terminal.setCursorVisible(false);
