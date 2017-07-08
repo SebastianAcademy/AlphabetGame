@@ -27,9 +27,12 @@ public class toTyping {
     }
 
     public boolean typing (Key key, Printer forprinting)throws InterruptedException{
+                long timestart = System.currentTimeMillis();
+                long timeend = 0;
+                long time = 0;
                 while (true) {
                     key = waitPressKey(key, terminal);
-                    if (key.getCharacter() == alphabet.charAt(this.i)) {
+                    if (key.getCharacter() == alphabet.charAt(i)) {
                         forprinting.print(startx, key);
                     } else {
                         starty++;
@@ -38,7 +41,9 @@ public class toTyping {
                     this.i++;
                     if (i == alphabet.length()) {
                         starty++;
-                        forprinting.WriterTerminal(startx, starty, "Great, your time is: ");
+                        timeend = System.currentTimeMillis();
+                        time = (timeend - timestart);
+                        forprinting.WriterTerminal(startx, starty, "Great, your time is: " + time + "ms");
                         starty++;
                         forprinting.WriterTerminal(startx, starty, "To reset press r, press ESC to quit");
                         terminal.setCursorVisible(false);
