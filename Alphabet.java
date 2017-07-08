@@ -14,23 +14,29 @@ public class Alphabet {
     public static void main(String[] args)throws InterruptedException {
         Terminal terminal = new SwingTerminal(100, 50);
         terminal.enterPrivateMode();
-        int i = 0, startx = 5, starty = 5;
         Timer timer = new Timer();
+        boolean reset = true;
         String alphabet = "abcdefghijklmnopqrstuvwxyz";
         String welcome = "This is my alphabet game!";
         String welcome2 = "Try to write the alphabet as fast as you can.";
         String rule = "If you print one character wrong the game will end!";
-        Printer forprinting = new Printer(terminal, startx, starty);
-        forprinting.WriterTerminal(startx, starty, welcome);
-        starty++;
-        forprinting.WriterTerminal(startx, starty, welcome2);
-        starty++;
-        forprinting.WriterTerminal(startx, starty, rule);
-        starty++;
-        forprinting.WriterTerminal(startx,starty, alphabet);
-        toTyping startTyping = new toTyping(startx, starty, i, alphabet, terminal);
-        Key key =null;
-        startTyping.typing(key, forprinting);
+        while(reset) {
+            terminal.setCursorVisible(true);
+            int i = 0, startx = 5, starty = 5;
+            Printer forprinting = new Printer(terminal, startx, starty);
+            forprinting.WriterTerminal(startx, starty, welcome);
+            starty++;
+            forprinting.WriterTerminal(startx, starty, welcome2);
+            starty++;
+            forprinting.WriterTerminal(startx, starty, rule);
+            starty++;
+            forprinting.WriterTerminal(startx,starty, alphabet);
+            toTyping startTyping = new toTyping(startx, starty, i, alphabet, reset, terminal);
+            Key key =null;
+            reset = startTyping.typing(key, forprinting);
+            terminal.clearScreen();
+        }
+        System.exit(0);
     }
 
 }

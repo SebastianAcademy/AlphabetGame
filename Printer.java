@@ -30,6 +30,6 @@ public class Printer {
             startx++;
         }
         y = starty;
-        //terminal.moveCursor(x, y);
+        terminal.moveCursor(x, y);
     }
 }

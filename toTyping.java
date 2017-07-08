@@ -15,17 +15,18 @@ public class toTyping {
     public int i;
     public String alphabet;
     public Terminal terminal;
+    public boolean reset;
 
-    public toTyping(int startx, int starty, int i, String alphabet, Terminal terminal) {
+    public toTyping(int startx, int starty, int i, String alphabet, boolean reset, Terminal terminal) {
         this.startx = startx;
         this.starty = starty;
         this.i = i;
         this.alphabet = alphabet;
         this.terminal = terminal;
+        this.reset = reset;
     }
 
-    public void typing (Key key, Printer forprinting)throws InterruptedException{
-
+    public boolean typing (Key key, Printer forprinting)throws InterruptedException{
                 while (true) {
                     key = waitPressKey(key, terminal);
                     if (key.getCharacter() == alphabet.charAt(this.i)) {
@@ -38,19 +39,35 @@ public class toTyping {
                     if (i == alphabet.length()) {
                         starty++;
                         forprinting.WriterTerminal(startx, starty, "Great, your time is: ");
-                        key = waitPressKey(key, terminal);
-                        if (key.getKind() == Key.Kind.Escape)
-                            System.exit(0);
+                        starty++;
+                        forprinting.WriterTerminal(startx, starty, "To reset press r, press ESC to quit");
+                        terminal.setCursorVisible(false);
+                        while(true) {
+                            key = waitPressKey(key, terminal);
+                            if (key.getCharacter() == 'r') {
+                                reset = true;
+                                return reset;
+                            } else if (key.getKind() == Key.Kind.Escape) {
+                                reset = false;
+                                return reset;
+                            }
+                        }
                     }
-
                 }
                 forprinting.WriterTerminal(startx, starty, "Sorry, you failed!");
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                starty++;
+                forprinting.WriterTerminal(startx, starty, "To reset press r, press ESC to quit");
+                terminal.setCursorVisible(false);
+                while(true) {
+                    key = waitPressKey(key, terminal);
+                    if (key.getCharacter() == 'r') {
+                        reset = true;
+                        return reset;
+                    } else if (key.getKind() == Key.Kind.Escape) {
+                        reset = false;
+                        return reset;
+                    }
                 }
-                System.exit(0);
             }
 
     public static Key waitPressKey (Key key, Terminal terminal)throws InterruptedException{
